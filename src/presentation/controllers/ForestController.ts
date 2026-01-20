@@ -34,7 +34,7 @@ export class ForestController {
       const validated = CreateForestSchema.parse(req.body);
       const forest = this.forestService.save(validated);
       res.status(201).send(forest);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
         res.status(400).send({ message: 'Validation error', errors: e.issues });
         return;
@@ -43,7 +43,8 @@ export class ForestController {
         res.status(409).send({ message: e.message });
         return;
       }
-      res.status(400).send({ message: e.message });
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(400).send({ message });
     }
   }
 
@@ -51,8 +52,9 @@ export class ForestController {
     try {
       const forest = this.forestService.getWithTrees(req.params.id);
       res.status(200).send(forest);
-    } catch (e: any) {
-      res.status(404).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 
@@ -61,7 +63,7 @@ export class ForestController {
       const validated = UpdateForestSchema.parse(req.body);
       const forest = this.forestService.update(req.params.id, validated);
       res.status(200).send(forest);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
         res.status(400).send({ message: 'Validation error', errors: e.issues });
         return;
@@ -70,10 +72,11 @@ export class ForestController {
         res.status(409).send({ message: e.message });
         return;
       }
-      if (e.message === 'Forest not found') {
-        res.status(404).send({ message: e.message });
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      if (message === 'Forest not found') {
+        res.status(404).send({ message });
       } else {
-        res.status(400).send({ message: e.message });
+        res.status(400).send({ message });
       }
     }
   }
@@ -91,7 +94,7 @@ export class ForestController {
       const validated = AddTreeToForestSchema.parse(req.body);
       this.forestService.addTreeToForest(req.params.id, validated.treeId);
       res.status(200).send({ message: 'Tree added' });
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
         res.status(400).send({ message: 'Validation error', errors: e.issues });
         return;
@@ -100,7 +103,8 @@ export class ForestController {
         res.status(409).send({ message: e.message });
         return;
       }
-      res.status(404).send({ message: e.message });
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 
@@ -108,8 +112,9 @@ export class ForestController {
     try {
       const species = this.forestService.getSpecies(req.params.id);
       res.status(200).send(species);
-    } catch (e: any) {
-      res.status(404).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 
@@ -119,8 +124,9 @@ export class ForestController {
       const trees = this.forestService.getTrees(req.params.id);
       const absorption = this.co2Service.getAbsorption(forest, trees);
       res.status(200).send({ absorption });
-    } catch (e: any) {
-      res.status(404).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 
@@ -135,8 +141,9 @@ export class ForestController {
       }
       const surfaceNeeded = this.co2Service.calculateSurfaceNeeded(forest, trees, target);
       res.status(200).send({ surfaceNeeded });
-    } catch (e: any) {
-      res.status(400).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(400).send({ message });
     }
   }
 
@@ -146,8 +153,9 @@ export class ForestController {
       const trees = this.forestService.getTrees(req.params.id);
       const cars = this.co2Service.getEquivalentInCars(forest, trees);
       res.status(200).send({ cars });
-    } catch (e: any) {
-      res.status(404).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 }

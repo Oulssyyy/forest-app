@@ -7,9 +7,9 @@
     "dev": "ts-node-dev --respawn --transpile-only src/application/server.ts",
     "build": "rmdir /s /q dist & tsc -p tsconfig.json & mkdir dist\\src\\api & copy src\\api\\forest.yml dist\\src\\api\\forest.yml",
     "start": "node dist/src/application/server.js",
-    "lint": "eslint 'src/**/*.{js,ts}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
-    "format": "prettier --write 'src/**/*.{js,ts}'",
+    "lint": "eslint \"src/**/*.{js,ts}\"",
+    "lint:fix": "eslint \"src/**/*.{js,ts}\" --fix",
+    "format": "prettier --write \"src/**/*.{js,ts}\"",
     "test": "jest --coverage"
   },
   "keywords": [],

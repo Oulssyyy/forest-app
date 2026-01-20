@@ -24,12 +24,13 @@ export class TreeController {
       const validated = CreateTreeSchema.parse(req.body);
       const tree = this.treeService.save(validated);
       res.status(201).send(tree);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
         res.status(400).send({ message: 'Validation error', errors: e.issues });
         return;
       }
-      res.status(400).send({ message: e.message });
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(400).send({ message });
     }
   }
 
@@ -38,8 +39,9 @@ export class TreeController {
       const id: string = req.params.id;
       const tree = this.treeService.get(id);
       res.status(200).send(tree);
-    } catch (e: any) {
-      res.status(404).send({ message: e.message });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      res.status(404).send({ message });
     }
   }
 
@@ -49,15 +51,16 @@ export class TreeController {
       const validated = UpdateTreeSchema.parse(req.body);
       const tree = this.treeService.update(id, validated);
       res.status(200).send(tree);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
         res.status(400).send({ message: 'Validation error', errors: e.issues });
         return;
       }
-      if (e.message === 'Tree not found') {
-        res.status(404).send({ message: e.message });
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      if (message === 'Tree not found') {
+        res.status(404).send({ message });
       } else {
-        res.status(400).send({ message: e.message });
+        res.status(400).send({ message });
       }
     }
   }
