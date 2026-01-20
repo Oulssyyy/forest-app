@@ -1,5 +1,5 @@
-import { Species } from "./Species";
-import { Exposure } from "./Exposure";
+import { Species } from './Species';
+import { Exposure } from './Exposure';
 
 export interface Tree {
   id?: string;

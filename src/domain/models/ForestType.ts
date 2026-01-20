@@ -1,5 +1,5 @@
 export enum ForestType {
-  BOREAL = "BOREAL",
-  TEMPERATE = "TEMPERATE",
-  TROPICAL = "TROPICAL"
+  BOREAL = 'BOREAL',
+  TEMPERATE = 'TEMPERATE',
+  TROPICAL = 'TROPICAL',
 }

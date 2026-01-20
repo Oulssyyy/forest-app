@@ -1,6 +1,6 @@
-import Forest, { ForestWithTrees } from "../../../domain/models/Forest";
-import { Tree } from "../../../domain/models/Tree";
-import { Species } from "../../../domain/models/Species";
+import Forest, { ForestWithTrees } from '../../../domain/models/Forest';
+import { Tree } from '../../../domain/models/Tree';
+import { Species } from '../../../domain/models/Species';
 
 export interface ForestServicePort {
   get(id: string): Forest;

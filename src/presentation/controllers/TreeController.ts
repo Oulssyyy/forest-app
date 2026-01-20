@@ -1,7 +1,7 @@
-import { TreeServicePort } from "../../application/ports/inbound/TreeServicePort";
-import { Express, Response, Request } from "express";
-import { CreateTreeSchema, UpdateTreeSchema } from "../validation/schemas";
-import { ZodError } from "zod";
+import { TreeServicePort } from '../../application/ports/inbound/TreeServicePort';
+import { Express, Response, Request } from 'express';
+import { CreateTreeSchema, UpdateTreeSchema } from '../validation/schemas';
+import { ZodError } from 'zod';
 
 export class TreeController {
   constructor(private treeService: TreeServicePort) {}
@@ -21,54 +21,54 @@ export class TreeController {
 
   createTree(req: Request, res: Response) {
     try {
-        const validated = CreateTreeSchema.parse(req.body);
-        const tree = this.treeService.save(validated);
-        res.status(201).send(tree);
+      const validated = CreateTreeSchema.parse(req.body);
+      const tree = this.treeService.save(validated);
+      res.status(201).send(tree);
     } catch (e: any) {
-        if (e instanceof ZodError) {
-             res.status(400).send({ message: "Validation error", errors: e.issues });
-             return;
-        }
-        res.status(400).send({ message: e.message });
+      if (e instanceof ZodError) {
+        res.status(400).send({ message: 'Validation error', errors: e.issues });
+        return;
+      }
+      res.status(400).send({ message: e.message });
     }
   }
 
   getTreeById(req: Request, res: Response) {
     try {
-        const id: string = req.params.id;
-        const tree = this.treeService.get(id);
-        res.status(200).send(tree);
+      const id: string = req.params.id;
+      const tree = this.treeService.get(id);
+      res.status(200).send(tree);
     } catch (e: any) {
-        res.status(404).send({ message: e.message });
+      res.status(404).send({ message: e.message });
     }
   }
 
   updateTree(req: Request, res: Response) {
-      try {
-        const id: string = req.params.id;
-        const validated = UpdateTreeSchema.parse(req.body);
-        const tree = this.treeService.update(id, validated);
-        res.status(200).send(tree);
-      } catch (e: any) {
-          if (e instanceof ZodError) {
-             res.status(400).send({ message: "Validation error", errors: e.issues });
-             return;
-          }
-          if (e.message === 'Tree not found') {
-              res.status(404).send({ message: e.message });
-          } else {
-              res.status(400).send({ message: e.message });
-          }
+    try {
+      const id: string = req.params.id;
+      const validated = UpdateTreeSchema.parse(req.body);
+      const tree = this.treeService.update(id, validated);
+      res.status(200).send(tree);
+    } catch (e: any) {
+      if (e instanceof ZodError) {
+        res.status(400).send({ message: 'Validation error', errors: e.issues });
+        return;
       }
+      if (e.message === 'Tree not found') {
+        res.status(404).send({ message: e.message });
+      } else {
+        res.status(400).send({ message: e.message });
+      }
+    }
   }
 
   deleteTree(req: Request, res: Response) {
-      const id: string = req.params.id;
-      const result = this.treeService.delete(id);
-      if (result) {
-          res.status(204).send();
-      } else {
-          res.status(404).send({ message: "Tree not found" });
-      }
+    const id: string = req.params.id;
+    const result = this.treeService.delete(id);
+    if (result) {
+      res.status(204).send();
+    } else {
+      res.status(404).send({ message: 'Tree not found' });
+    }
   }
 }
