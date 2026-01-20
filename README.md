@@ -20,7 +20,6 @@ Ulysse HOLZINGER INFRES17
 
 ## Comment lancer l’application
 1. **Installation des dépendances** : `npm install`
-2. **Lancement des tests** (avec calcul du coverage) : `npm test`.
-3. **Mode développement** (avec watcher) : `npm run dev`
-4. **Mode production** : `npm run build` suivi de `npm run start`.
+2. **Lancement des tests** : `npm test`.
+3. **Mode développement** : `npm run dev`
 5. **Accès** : Le serveur écoute sur le port 3000 par défaut, et la documentation Swagger est accessible sur `http://localhost:3000/docs`.
