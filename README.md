@@ -10,6 +10,7 @@ Ulysse HOLZINGER INFRES17
 * Ajout d'une fonctionnalité de calcul de la surface forestière nécessaire pour absorber une quantité donnée de CO2.
 * Implémentation d'une fonctionnalité bonus : conversion de l'absorption en équivalent d'émissions annuelles de voitures.
 * Mise en place d'une documentation interactive via Swagger/OpenAPI
+* Configuration de ESLint et Prettier pour automatiser la qualité et la mise en forme du code
 
 ## Comment je l'ai fait
 * **Architecture Hexagonale** : Séparation stricte entre le Domaine (modèles et services métier), l'Infrastructure (adaptateurs) et la Présentation (contrôleurs).
