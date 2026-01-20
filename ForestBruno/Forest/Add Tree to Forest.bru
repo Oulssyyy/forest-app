@@ -1,0 +1,21 @@
+meta {
+  name: Add Tree to Forest
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:3000/forest/{{forestId}}/action/add-tree
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "treeId":"91efd1e9-c820-4c9e-85f7-cb205f820ffb"
+  }
+}
+
+vars:pre-request {
+  forestId: bcb530c6-a832-4c2c-a8af-7cbb2b6c396d
+}

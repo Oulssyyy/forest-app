@@ -1,0 +1,619 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Forest api
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8080
+paths:
+  /tree:
+    get:
+      summary: List all trees
+      operationId: listTrees
+      tags:
+        - tree
+      responses:
+        '200':
+          description: A tree list was found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tree"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a tree
+      operationId: createTree
+      tags:
+        - tree
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tree"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tree"
+        '400':
+          description: Bad Request (Invalid input)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tree/{id}:
+    get:
+      summary: Info for a tree
+      operationId: getTree
+      tags:
+        - tree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The tree id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A tree was found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tree"
+        '404':
+          description: Tree not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a tree
+      operationId: updateTree
+      tags:
+        - tree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tree"
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tree"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Tree not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a tree
+      operationId: deleteTree
+      tags:
+        - tree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Tree not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest:
+    get:
+      summary: List all forests with full tree details
+      operationId: listForests
+      tags:
+        - forest
+      responses:
+        '200':
+          description: List of forests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ForestDetails"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a forest
+      operationId: createForest
+      tags:
+        - forest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Forest"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forest"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict (Tree already assigned to another forest)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}:
+    get:
+      summary: Get forest info
+      operationId: getForest
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForestDetails"
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a forest
+      operationId: updateForest
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Forest"
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forest"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict (Tree already assigned to another forest)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a forest
+      operationId: deleteForest
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}/trees:
+    post:
+      summary: Add a tree to a forest
+      operationId: addTreeToForest
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - treeId
+              properties:
+                treeId:
+                   type: string
+      responses:
+        '200':
+          description: Tree added
+        '400':
+          description: Bad Request (Invalid tree)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict (Tree already assigned to another forest)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}/species:
+    get:
+      summary: Get species in forest
+      operationId: getForestSpecies
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of species
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Species"
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}/absorption:
+    get:
+      summary: Get forest calculated absorption
+      operationId: getForestAbsorption
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Absorption in kg/year
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  absorption:
+                    type: number
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}/surface-needed:
+    get:
+      summary: Calculate surface needed for target CO2
+      operationId: getSurfaceNeeded
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetCo2
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Surface needed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  surfaceNeeded:
+                    type: number
+        '400':
+          description: Bad Request (Missing or invalid query param)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /forest/{id}/cars-equivalent:
+    get:
+      summary: Get equivalent number of cars offset by forest
+      operationId: getCarsEquivalent
+      tags:
+        - forest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Number of cars
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cars:
+                    type: number
+        '404':
+          description: Forest not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Error:
+      properties:
+        message:
+          type: string
+    Species:
+      type: string
+      enum:
+        - OAK
+        - EVERGREEN_OAK
+        - FIR
+        - ASH
+        - BEECH
+    Exposure:
+      type: string
+      enum:
+        - SUNNY
+        - MID_SHADOW
+        - SHADOW
+    ForestType:
+      type: string
+      enum:
+        - BOREAL
+        - TEMPERATE
+        - TROPICAL
+    Tree:
+      required:
+        - birth
+        - species
+        - exposure
+        - carbonStorageCapacity
+      properties:
+        id:
+          type: string
+          format: uuid
+        birth:
+          type: string
+          format: date
+        exposure:
+          $ref: '#/components/schemas/Exposure'
+        species:
+          $ref: '#/components/schemas/Species'
+        carbonStorageCapacity:
+          type: number
+          format: double
+    Forest:
+      required:
+        - type
+        - surface
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/ForestType'
+        surface:
+          type: number
+          format: double
+        treeIds:
+          type: array
+          items:
+            type: string
+    ForestWithTrees:
+      allOf:
+        - $ref: '#/components/schemas/Forest'
+        - type: object
+          properties:
+             trees:
+                type: array
+                items:
+                   $ref: '#/components/schemas/Tree'
+          # We might want to remove treeIds from here but Swagger inheritance (allOf) is additive.
+          # Ideally we define a BaseForest and extend. But for now, let's just definition ForestWithTrees separately to be cleaner if inheritance is messy with "remove field".
+          
+    ForestDetails:
+       required:
+        - type
+        - surface
+       properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/ForestType'
+        surface:
+          type: number
+          format: double
+        trees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'

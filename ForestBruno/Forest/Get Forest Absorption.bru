@@ -1,0 +1,15 @@
+meta {
+  name: Get Forest Absorption
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:3000/forest/{{forestId}}/absorption
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  forestId: dd56ee92-79b7-4b40-8ba4-b76a8885a20f
+}

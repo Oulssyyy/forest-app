@@ -1,0 +1,15 @@
+meta {
+  name: Delete Forest
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3000/forest/{{forestId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  forestId: 
+}

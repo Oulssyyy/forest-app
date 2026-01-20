@@ -1,0 +1,15 @@
+meta {
+  name: Delete Tree
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3000/tree/{{treeId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  treeId: df54ec43-892d-4ea9-bc48-ece461ade72e
+}

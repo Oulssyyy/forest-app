@@ -1,0 +1,22 @@
+meta {
+  name: Create Forest
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/forest
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "type": "TEMPERATE",
+    "surface": 1000,
+    "treeIds":[
+      "862f9f54-9101-4c14-850a-a6264acd8cee",
+      "0da16379-3d30-4139-a25f-a3b781ff09e9"
+    ]
+  }
+}

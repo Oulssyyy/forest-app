@@ -1,0 +1,15 @@
+meta {
+  name: Get Forest By ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3000/forest/{{forestId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  forestId: bcb530c6-a832-4c2c-a8af-7cbb2b6c396d
+}

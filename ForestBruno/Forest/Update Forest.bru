@@ -1,0 +1,23 @@
+meta {
+  name: Update Forest
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/forest/{{forestId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "type": "BOREAL",
+    "surface": 1200,
+    "trees": []
+  }
+}
+
+vars:pre-request {
+  forestId: 
+}

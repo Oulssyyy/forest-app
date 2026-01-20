@@ -1,0 +1,81 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Forest api
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8080
+paths:
+  /tree:
+    get:
+      summary: List all trees
+      operationId: listTrees
+      tags:
+        - tree
+      responses:
+        '200':
+          description: A tree list was found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tree"
+
+  /tree/{id}:
+    get:
+      summary: Info for a tree
+      operationId: getTree
+      tags:
+        - tree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The tree id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A tree was found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tree"
+
+components:
+  schemas:
+    Species:
+      enum:
+        - OAK
+        - EVERGREEN_OAK
+        - FIR
+        - ASH
+        - BEECH
+    Exposure:
+      enum:
+        - SUNNY
+        - MID_SHADOW
+        - SHADOW
+    Tree:
+      required:
+        - id
+        - birth
+        - species
+        - exposure
+        - carbonStorageCapacity
+      properties:
+        id:
+          type: string
+          format: uuid
+        birth:
+          type: string
+          format: date
+        exposure:
+          $ref: '#/components/schemas/Exposure'
+        species:
+          $ref: '#/components/schemas/Species'
+        carbonStorageCapacity:
+          type: number
+          format: double
